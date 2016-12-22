@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "system",
+        "moduleResolution": "node",
+        "declaration": true,
+        "outFile": "sample.js"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
