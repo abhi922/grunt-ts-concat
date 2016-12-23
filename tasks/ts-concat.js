@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 
                 for (var bundle in file.bundles) {
 
-                    var bundlePath = grunt.file.expand(bundle)[0].replace(tsFileExtension, "");
+                    var bundlePath = grunt.template.process(bundle).replace(tsFileExtension, "");
 
                     if (bundlePath.indexOf("../") < 0) {
                         processedBundles["./" + bundlePath] = grunt.file.expand(file.bundles[bundle])
@@ -47,6 +47,7 @@ module.exports = function (grunt) {
 
             finalImports = "";
             finalMainSrc = "";
+
 
             file.src
                 .filter(function (filepath) {

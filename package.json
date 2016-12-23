@@ -25,6 +25,12 @@
       "concat": {
         "dest": "main.final.module.ts"
       }
+    },
+    "lib": {
+      "src": "lib"
+    },
+    "files": {
+      "src": "files"
     }
   }
 }
