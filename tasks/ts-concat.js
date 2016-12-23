@@ -7,10 +7,39 @@ module.exports = function (grunt) {
     var cleanRegEx = /^\n$/gm;
     var finalImports = "";
     var finalMainSrc = "";
+    var tsFileExtension = /\.ts$/;
 
     grunt.registerMultiTask("ts-concat", "Concatenate typescript files gracefully", function () {
 
         this.files.forEach(function (file) {
+
+            var processedBundles = {};
+
+            if (file.bundles) {
+
+                for (var bundle in file.bundles) {
+
+                    var bundlePath = grunt.file.expand(bundle)[0].replace(tsFileExtension, "");
+
+                    if (bundlePath.indexOf("../") < 0) {
+                        processedBundles["./" + bundlePath] = grunt.file.expand(file.bundles[bundle])
+                            .map(function (filepath) {
+                                if (filepath.indexOf("../") < 0) {
+                                    return "./" + filepath.replace(tsFileExtension, "");
+                                }
+                                return filepath.replace(tsFileExtension, "");
+                            });
+                    } else {
+                        processedBundles[bundlePath] = grunt.file.expand(file.bundles[bundle])
+                            .map(function (filepath) {
+                                if (filepath.indexOf("../") < 0) {
+                                    return "./" + filepath.replace(tsFileExtension, "");
+                                }
+                                return filepath.replace(tsFileExtension, "");
+                            });
+                    }
+                }
+            }
 
             if (grunt.file.exists(file.dest)) {
                 grunt.file.delete(file.dest);
@@ -30,7 +59,7 @@ module.exports = function (grunt) {
 
                     var src = grunt.file.read(filepath);
 
-                    var finalSrc = util.process(src, filepath, this.data.dest);
+                    var finalSrc = util.process(src, filepath, this.data.dest, processedBundles);
                     finalMainSrc += finalSrc + "\n";
 
                 }, this);

@@ -8,14 +8,14 @@ var processedFiles = [];
 var modulePaths = {};
 var importRegEx = /^\s*import\s+\{(.*)\}\s+from\s+[\"\'](.*)[\"\'];*$/gm;
 
-exports.clean = function() {
+exports.clean = function () {
     localModulesMap = {};
     externModulesMap = {};
     processedFiles = [];
     modulePaths = {};
 }
 
-exports.process = function (src, filepath, dest) {
+exports.process = function (src, filepath, dest, bundles) {
 
     var match;
     var finalSrc = src;
@@ -60,23 +60,24 @@ exports.process = function (src, filepath, dest) {
                         return part !== "." && part !== "..";
                     }), "/");
 
-                var destPath = dest;
-                var backPartsLen = dest.split("/")
-                    .filter(function (part) {
-                        return part === "..";
-                    }).length;
-
-                var partRe = new RegExp("^(\\.\\.\\/){" + backPartsLen + "," + backPartsLen + "}");
-                modulePath = modulePath.replace(partRe, "");
-                destPath = destPath.replace(partRe, "");
-
-                for(var i = 0; i < destPath.split("/").length - 1; i++) {
-                    modulePath = "../" + modulePath;
+                if(modulePath.indexOf("../") < 0 && modulePath.indexOf("./") < 0) {
+                    modulePath = "./" + modulePath;
                 }
 
-                if(modulePath[0] !== ".") modulePath = "./" + modulePath;
-                
-                modulePaths[module] = modulePath;
+                var bundleFound = false;
+                for (var bundle in bundles) {
+                    var bundleExists = bundles[bundle].filter(function (filepath) {
+                        return filepath === modulePath;
+                    });
+                    if (bundleExists.length > 0) {
+                        bundleFound = true;
+                        modulePaths[module] = convertToDestRelativePath(bundle, dest);
+                    }
+                }
+
+                if (!bundleFound) {
+                    modulePaths[module] = convertToDestRelativePath(modulePath, dest);
+                }
             }
 
         } else {
@@ -106,12 +107,54 @@ exports.returnImports = function () {
     var finalImports = "";
 
     for (var module in externModulesMap) {
-        finalImports += "import { " + _.join(externModulesMap[module], ", ") + " } from \"" + module + "\";";
+        finalImports += "import { " + _.join(externModulesMap[module], ", ") + " } from \"" + module + "\";\n";
     }
 
     for (var module in localModulesMap) {
-        finalImports += "import { " + _.join(localModulesMap[module], ", ") + " } from \"" + modulePaths[module] + "\";";
+        finalImports += "import { " + _.join(localModulesMap[module], ", ") + " } from \"" + modulePaths[module] + "\";\n";
     }
 
     return finalImports;
+}
+
+function cleanPath(path) {
+
+    if (path.indexOf("../") >= 0) {
+
+        return path
+            .split("/")
+            .filter(function (part) {
+                return part !== ".";
+            })
+            .reduce(function (path, part) {
+                if (path === "") {
+                    path += part;
+                    return path;
+                }
+                path += "/" + part;
+                return path;
+            }, "");
+    }
+    return path;
+}
+
+function convertToDestRelativePath(path, dest) {
+
+    var destPath = dest;
+    var backPartsLen = dest.split("/")
+        .filter(function (part) {
+            return part === "..";
+        }).length;
+
+    var partRe = new RegExp("^(\\.\\.\\/){" + backPartsLen + "," + backPartsLen + "}");
+    path = path.replace(partRe, "");
+    destPath = destPath.replace(partRe, "");
+
+    for (var i = 0; i < destPath.split("/").length - 1; i++) {
+        path = "../" + path;
+    }
+
+    if (path[0] !== ".") path = "./" + path;
+
+    return cleanPath(path);
 }
