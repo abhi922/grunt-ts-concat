@@ -1,16 +1,28 @@
 {
-  "name": "typescript-modules",
-  "version": "1.0.0",
-  "description": "Repository where I write code to deeply understand typescript language concepts.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "grunt-ts-contact",
+  "description": "Bundle typescrpit files into single typescript module.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/abhi922/grunt-ts-concat",
+  "author": {
+    "name": "Abhishek Jain",
+    "email": "abhishek.jain2692@gmail.com"
   },
-  "keywords": [
-    "typescript"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/abhi922/grunt-ts-concat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/abhi922/grunt-ts-concat/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/m-architek/grunt-ng2-inline/blob/master/LICENSE-MIT"
+    }
   ],
-  "author": "Abhishek Jain",
-  "license": "ISC",
+  "scripts": {
+    "test": "grunt test"
+  },
   "dependencies": {
     "lodash": "^4.17.2"
   },
@@ -18,19 +30,14 @@
     "typescript": "^2.1.4",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-concat": "^1.0.1"
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-clean": "1.0.0",
+    "grunt-contrib-nodeunit": "1.0.0"
   },
-  "app": {
-    "ts": {
-      "concat": {
-        "dest": "main.final.module.ts"
-      }
-    },
-    "lib": {
-      "src": "lib"
-    },
-    "files": {
-      "src": "files"
-    }
-  }
+  "keywords": [
+    "gruntplugin",
+    "typescript",
+    "bundle",
+    "concat"
+  ]
 }

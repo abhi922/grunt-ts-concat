@@ -9,7 +9,7 @@ module.exports = function (grunt) {
     var finalMainSrc = "";
     var tsFileExtension = /\.ts$/;
 
-    grunt.registerMultiTask("ts-concat", "Concatenate typescript files gracefully", function () {
+    grunt.registerMultiTask("ts_concat", "Concatenate typescript files gracefully", function () {
 
         this.files.forEach(function (file) {
 
