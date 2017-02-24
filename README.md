@@ -129,7 +129,7 @@ Which means that now if someone is using your library, they have to write 2 impo
 
 Here comes ```ts_concat```, when you use this you can generate a bundle like below
 ```js
-//bundle.ts
+//main.ts
 import { SomeValidator } from "some-validator";
 
 export class LettersOnlyValidator implements SomeValidator {
@@ -154,6 +154,7 @@ export class ZipCodeValidator implements SomeValidator {
 and when you compile this with ```typescript``` compiler, the result is
 
 ```js
+//main.js
 System.register("main", [], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
