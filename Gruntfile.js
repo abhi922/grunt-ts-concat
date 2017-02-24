@@ -24,13 +24,30 @@ module.exports = function (grunt) {
                 ],
                 dest: "tmp/util/util-bundle.ts",
             },
+
+            /**
+             * Using dynamic mappings.
+             * You should typically avoid using dynamic bindings with this task but if you have to please follow this example.
+             */
             default: {
+                expand: true,
+                cwd: "test/fixtures",
                 src: [
-                    "test/fixtures/files/**/*.ts",
-                    "!test/fixtures/files/**/date.pipe.ts"
+                    "files/**/*.ts",
+                    "!files/**/date.pipe.ts"
                 ],
-                dest: "tmp/first-test/bundle.ts"
+                dest: "tmp/first-test/",
+                //rename function must be used in case of dynamic bindings.
+                rename: function(dest, src) {
+                    //function must return same file name for all src files for bundling to happen properly.
+                    //for example: the output file will be bundle.ts. any name can be used here.
+                    return dest + "bundle.ts";
+                }
             },
+
+            /**
+             * Using static mappings.
+             */
             bundles_prop: {
                 src: [
                     "test/fixtures/files/**/*.ts",
