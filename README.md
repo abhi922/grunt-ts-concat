@@ -47,5 +47,148 @@ grunt.initConfig({
 });
 ```
 
+### Why would you use this?
+For example you have following files.
+```js
+//letters-validator.ts
+import { SomeValidator } from "some-validator";
+
+export class LettersOnlyValidator implements SomeValidator {
+
+    lettersRegexp: RegExp = /^[A-Za-z]+$/;
+
+    isAcceptable(s: string) {
+        return this.lettersRegexp.test(s);
+    }
+}
+```
+
+```js
+//zip-code-validator.ts
+import { SomeValidator } from "some-validator";
+
+export class ZipCodeValidator implements SomeValidator {
+    
+    numberRegexp: RegExp = /^[0-9]+$/;
+    
+    isAcceptable(s: string) {
+        return s.length === 5 && this.numberRegexp.test(s);
+    }
+}
+```
+
+Now when you compile and bundle these files with ```typescript``` compiler the result is something like this.
+```js
+//letters-validator.js
+System.register("letters-only-validator", [], function (exports_6, context_6) {
+    "use strict";
+    var __moduleName = context_6 && context_6.id;
+    var LettersOnlyValidator;
+    return {
+        setters: [],
+        execute: function () {
+            LettersOnlyValidator = (function () {
+                function LettersOnlyValidator() {
+                    this.lettersRegexp = /^[A-Za-z]+$/;
+                }
+                LettersOnlyValidator.prototype.isAcceptable = function (s) {
+                    return this.lettersRegexp.test(s);
+                };
+                return LettersOnlyValidator;
+            }());
+            exports_6("LettersOnlyValidator", LettersOnlyValidator);
+        }
+    };
+});
+
+//zip-code-validator.js
+System.register("zip-code-validator", [], function (exports_7, context_7) {
+    "use strict";
+    var __moduleName = context_7 && context_7.id;
+    var ZipCodeValidator;
+    return {
+        setters: [],
+        execute: function () {
+            ZipCodeValidator = (function () {
+                function ZipCodeValidator() {
+                    this.numberRegexp = /^[0-9]+$/;
+                }
+                ZipCodeValidator.prototype.isAcceptable = function (s) {
+                    return s.length === 5 && this.numberRegexp.test(s);
+                };
+                return ZipCodeValidator;
+            }());
+            exports_7("ZipCodeValidator", ZipCodeValidator);
+        }
+    };
+});
+```
+
+Which means that now if someone is using your library, they have to write 2 import statements for importing these classes.
+> This also means that the consumer of your library should be aware of the complete folder structure of your library to import from different modules because when ```typescript``` compiler bundles files, it gives the file path as module name.
+
+Here comes ```ts_concat```, when you use this you can generate a bundle like below
+```js
+//bundle.ts
+import { SomeValidator } from "some-validator";
+
+export class LettersOnlyValidator implements SomeValidator {
+
+    lettersRegexp: RegExp = /^[A-Za-z]+$/;
+
+    isAcceptable(s: string) {
+        return this.lettersRegexp.test(s);
+    }
+}
+
+export class ZipCodeValidator implements SomeValidator {
+    
+    numberRegexp: RegExp = /^[0-9]+$/;
+    
+    isAcceptable(s: string) {
+        return s.length === 5 && this.numberRegexp.test(s);
+    }
+}
+```
+
+and when you compile this with ```typescript``` compiler, the result is
+
+```js
+System.register("main", [], function (exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
+    var LettersOnlyValidator, ZipCodeValidator;
+    return {
+        setters: [],
+        execute: function () {
+            LettersOnlyValidator = (function () {
+                function LettersOnlyValidator() {
+                    this.lettersRegexp = /^[A-Za-z]+$/;
+                }
+                LettersOnlyValidator.prototype.isAcceptable = function (s) {
+                    return this.lettersRegexp.test(s);
+                };
+                return LettersOnlyValidator;
+            }());
+            exports_1("LettersOnlyValidator", LettersOnlyValidator);
+            ZipCodeValidator = (function () {
+                function ZipCodeValidator() {
+                    this.numberRegexp = /^[0-9]+$/;
+                }
+                ZipCodeValidator.prototype.isAcceptable = function (s) {
+                    return s.length === 5 && this.numberRegexp.test(s);
+                };
+                return ZipCodeValidator;
+            }());
+            exports_1("ZipCodeValidator", ZipCodeValidator);
+        }
+    };
+});
+```
+
+So now your users can import everything and anything that they want from just one module (```main``` in this case) **and there applications won't break even if you refactor your code into different folders in some future release of your library.**
+
+### *There are a lot more use cases that this plugin can help you with. Some of them have been added in the ```test``` folder.*
+
 ## License
 MIT
