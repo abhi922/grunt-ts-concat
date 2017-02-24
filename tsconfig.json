@@ -6,8 +6,11 @@
         "declaration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "outFile": "sample.js"
+        "outFile": "compiled/unbundled-main.js"
     },
+    "include": [
+        "test/fixtures/**/*.ts"
+    ],
     "exclude": [
         "node_modules"
     ]

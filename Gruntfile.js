@@ -3,7 +3,12 @@ module.exports = function (grunt) {
     grunt.initConfig({
 
         clean: {
-            tests: ["tmp"]
+            tests: [
+                "tmp"
+            ],
+            compiled: [
+                "compiled"
+            ]
         },
 
         ts_concat: {
@@ -70,11 +75,20 @@ module.exports = function (grunt) {
                         "test/fixtures/util/**/*.ts"
                     ]
                 }
+            },
+            full_lib: {
+                src: [
+                    "tmp/fourth-test/**/*.ts",
+                    "tmp/all-utils.ts"
+                ],
+                dest: "tmp/main.ts"
             }
         },
 
         nodeunit: {
-            tests: ['test/*_test.js']
+            tests: [
+                'test/*_test.js'
+            ]
         }
     });
 
@@ -83,7 +97,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-    grunt.registerTask('test', ['clean', 'ts_concat', 'nodeunit']);
-
+    grunt.registerTask('main-concat', ['clean:tests', 'ts_concat']);
+    grunt.registerTask('test', ['main-concat', 'nodeunit']);
     grunt.registerTask("default", ["test"]);
 }

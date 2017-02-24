@@ -21,7 +21,11 @@
     }
   ],
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "generate-bundles": "grunt main-concat",
+    "unbundled-ts": "tsc",
+    "bundled-ts": "tsc tmp/main.ts --module \"system\" --target \"es5\" --moduleResolution \"node\" --declaration true --outFile \"compiled/bundled-main.js\"",
+    "compile-all": "grunt clean:compiled && npm run generate-bundles && npm run unbundled-ts && npm run bundled-ts"
   },
   "dependencies": {
     "lodash": "^4.17.2"

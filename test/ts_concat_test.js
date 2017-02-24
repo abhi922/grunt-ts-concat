@@ -46,5 +46,15 @@ exports.ts_concat = {
         test.equal(actual, expected, "files are concatenated correctly when a bundle is given using bundles prop which has files from multiple folders.");
 
         test.done();
+    },
+
+    full_lib: function(test) {
+        test.expect(1);
+
+        var actual = grunt.file.read('tmp/main.ts');
+        var expected = grunt.file.read('test/expected/main.ts');
+        test.equal(actual, expected, "full library is bundled correctly.");
+
+        test.done();
     }
 };

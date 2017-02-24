@@ -1,10 +1,8 @@
-import { Pipe } from "@angular/core";
 import { DateFormatter } from "../../tmp/util/util-bundle";
 import { PasswordValidator } from "../../tmp/lib/validators-bundle";
 import { StringValidator } from "../../tmp/lib/validators-bundle";
 import { MobileValidator } from "../../tmp/lib/validators-bundle";
 
-@Pipe({})
 export class DatePipe {
 
     dateFormatter = new DateFormatter();

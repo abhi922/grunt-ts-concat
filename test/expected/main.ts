@@ -1,7 +1,3 @@
-import { DateFormatter } from "../../tmp/all-utils";
-import { PasswordValidator } from "../../tmp/all-utils";
-import { StringValidator } from "../../tmp/all-utils";
-import { MobileValidator } from "../../tmp/all-utils";
 
 export class DatePipe {
 
@@ -28,4 +24,24 @@ export class ZipCodeValidator implements StringValidator {
     isAcceptable(s: string) {
         return s.length === 5 && this.numberRegexp.test(s);
     }
+}
+
+export interface MobileValidator {
+    isAcceptable(s: String): boolean;
+}
+
+export interface PasswordValidator {
+    isAcceptable(s: String): boolean;
+}
+
+export interface StringValidator {
+    isAcceptable(s: String): boolean;
+}
+export class DateFormatter {
+    public formatDate(date, format) {
+        return date.format(format);
+    }
+}
+export class UtilityFunctions {
+    static a = () => 1;
 }
