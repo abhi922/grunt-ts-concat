@@ -27,7 +27,7 @@ module.exports = function (grunt) {
 
             /**
              * Using dynamic mappings.
-             * You should typically avoid using dynamic bindings with this task but if you have to please follow this example.
+             * You should typically avoid using dynamic mappings with this task but if you have to please follow this example.
              */
             default: {
                 expand: true,
