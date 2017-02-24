@@ -55,6 +55,7 @@ module.exports = function (grunt) {
                     if (grunt.file.exists(filepath)) {
                         return true;
                     }
+                    grunt.fail.warn('Source file "' + filepath + '" not found.');
                     return false;
                 })
                 .forEach(function (filepath) {
