@@ -13,20 +13,61 @@ module.exports = function (grunt) {
                 ],
                 dest: "tmp/lib/validators-bundle.ts",
             },
+            util: {
+                src: [
+                    "test/fixtures/util/**/*.ts"
+                ],
+                dest: "tmp/util/util-bundle.ts",
+            },
             default: {
                 src: [
-                    "test/fixtures/files/**/*.ts"
+                    "test/fixtures/files/**/*.ts",
+                    "!test/fixtures/files/**/date.pipe.ts"
                 ],
                 dest: "tmp/first-test/bundle.ts"
             },
             bundles_prop: {
                 src: [
-                    "test/fixtures/files/**/*.ts"
+                    "test/fixtures/files/**/*.ts",
+                    "!test/fixtures/files/**/date.pipe.ts"
                 ],
                 dest: "tmp/second-test/bundle.ts",
                 bundles: {
                     "tmp/lib/validators-bundle.ts": [
                         "test/fixtures/lib/**/*.ts"
+                    ]
+                }
+            },
+            multi_src: {
+                src: [
+                    "test/fixtures/lib/**/*.ts",
+                    "test/fixtures/util/**/*.ts"
+                ],
+                dest: "tmp/all-utils.ts",
+            },
+            multi_bundles: {
+                src: [
+                    "test/fixtures/files/**/*.ts"
+                ],
+                dest: "tmp/third-test/bundle.ts",
+                bundles: {
+                    "tmp/lib/validators-bundle.ts": [
+                        "test/fixtures/lib/**/*.ts"
+                    ],
+                    "tmp/util/util-bundle.ts": [
+                        "test/fixtures/util/**/*.ts"
+                    ]
+                }
+            },
+            one_bundle_with_multiple_inputs: {
+                src: [
+                    "test/fixtures/files/**/*.ts"
+                ],
+                dest: "tmp/fourth-test/bundle.ts",
+                bundles: {
+                    "tmp/all-utils.ts": [
+                        "test/fixtures/lib/**/*.ts",
+                        "test/fixtures/util/**/*.ts"
                     ]
                 }
             }
