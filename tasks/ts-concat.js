@@ -11,18 +11,20 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask("ts_concat", "Concatenate typescript files gracefully", function () {
 
+        var options = this.options({});
+
         this.files.forEach(function (file) {
 
             var processedBundles = {};
 
-            if (file.bundles) {
+            if (options.bundles) {
 
-                for (var bundle in file.bundles) {
+                for (var bundle in options.bundles) {
 
                     var bundlePath = grunt.template.process(bundle).replace(tsFileExtension, "");
 
                     if (bundlePath.indexOf("../") < 0) {
-                        processedBundles["./" + bundlePath] = grunt.file.expand(file.bundles[bundle])
+                        processedBundles["./" + bundlePath] = grunt.file.expand(options.bundles[bundle])
                             .map(function (filepath) {
                                 if (filepath.indexOf("../") < 0) {
                                     return "./" + filepath.replace(tsFileExtension, "");
@@ -30,7 +32,7 @@ module.exports = function (grunt) {
                                 return filepath.replace(tsFileExtension, "");
                             });
                     } else {
-                        processedBundles[bundlePath] = grunt.file.expand(file.bundles[bundle])
+                        processedBundles[bundlePath] = grunt.file.expand(options.bundles[bundle])
                             .map(function (filepath) {
                                 if (filepath.indexOf("../") < 0) {
                                     return "./" + filepath.replace(tsFileExtension, "");
@@ -47,7 +49,6 @@ module.exports = function (grunt) {
 
             finalImports = "";
             finalMainSrc = "";
-
 
             file.src
                 .filter(function (filepath) {

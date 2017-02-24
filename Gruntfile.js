@@ -12,17 +12,18 @@ module.exports = function (grunt) {
         },
 
         ts_concat: {
+
             interfaces: {
                 src: [
                     "test/fixtures/lib/**/*.ts"
                 ],
-                dest: "tmp/lib/validators-bundle.ts",
+                dest: "tmp/lib/validators-bundle.ts"
             },
             util: {
                 src: [
                     "test/fixtures/util/**/*.ts"
                 ],
-                dest: "tmp/util/util-bundle.ts",
+                dest: "tmp/util/util-bundle.ts"
             },
 
             /**
@@ -38,7 +39,7 @@ module.exports = function (grunt) {
                 ],
                 dest: "tmp/first-test/",
                 //rename function must be used in case of dynamic bindings.
-                rename: function(dest, src) {
+                rename: function (dest, src) {
                     //function must return same file name for all src files for bundling to happen properly.
                     //for example: the output file will be bundle.ts. any name can be used here.
                     return dest + "bundle.ts";
@@ -54,10 +55,12 @@ module.exports = function (grunt) {
                     "!test/fixtures/files/**/date.pipe.ts"
                 ],
                 dest: "tmp/second-test/bundle.ts",
-                bundles: {
-                    "tmp/lib/validators-bundle.ts": [
-                        "test/fixtures/lib/**/*.ts"
-                    ]
+                options: {
+                    bundles: {
+                        "tmp/lib/validators-bundle.ts": [
+                            "test/fixtures/lib/**/*.ts"
+                        ]
+                    }
                 }
             },
             multi_src: {
@@ -65,20 +68,22 @@ module.exports = function (grunt) {
                     "test/fixtures/lib/**/*.ts",
                     "test/fixtures/util/**/*.ts"
                 ],
-                dest: "tmp/all-utils.ts",
+                dest: "tmp/all-utils.ts"
             },
             multi_bundles: {
                 src: [
                     "test/fixtures/files/**/*.ts"
                 ],
                 dest: "tmp/third-test/bundle.ts",
-                bundles: {
-                    "tmp/lib/validators-bundle.ts": [
-                        "test/fixtures/lib/**/*.ts"
-                    ],
-                    "tmp/util/util-bundle.ts": [
-                        "test/fixtures/util/**/*.ts"
-                    ]
+                options: {
+                    bundles: {
+                        "tmp/lib/validators-bundle.ts": [
+                            "test/fixtures/lib/**/*.ts"
+                        ],
+                        "tmp/util/util-bundle.ts": [
+                            "test/fixtures/util/**/*.ts"
+                        ]
+                    }
                 }
             },
             one_bundle_with_multiple_inputs: {
@@ -86,11 +91,13 @@ module.exports = function (grunt) {
                     "test/fixtures/files/**/*.ts"
                 ],
                 dest: "tmp/fourth-test/bundle.ts",
-                bundles: {
-                    "tmp/all-utils.ts": [
-                        "test/fixtures/lib/**/*.ts",
-                        "test/fixtures/util/**/*.ts"
-                    ]
+                options: {
+                    bundles: {
+                        "tmp/all-utils.ts": [
+                            "test/fixtures/lib/**/*.ts",
+                            "test/fixtures/util/**/*.ts"
+                        ]
+                    }
                 }
             },
             full_lib: {
