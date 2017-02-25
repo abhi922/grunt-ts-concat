@@ -1,7 +1,21 @@
+import 
+{
+    PasswordValidator,
+    SecondPasswordValidator
+} 
+from "../lib/password-validator";
 
-import { PasswordValidator } from "../lib/password-validator";
-import { StringValidator } from "../lib/string-validator";
-import { MobileValidator } from "../lib/mobile-validator";
+import {
+StringValidator
+} 
+from 
+"../lib/string-validator";
+
+import {
+    MobileValidator
+} 
+    from 
+    "../lib/mobile-validator";
 
 export class LettersOnlyValidator implements PasswordValidator {
 

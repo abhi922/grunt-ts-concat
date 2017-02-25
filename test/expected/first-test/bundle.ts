@@ -1,4 +1,4 @@
-import { PasswordValidator } from "../../test/fixtures/lib/password-validator";
+import { PasswordValidator, SecondPasswordValidator } from "../../test/fixtures/lib/password-validator";
 import { StringValidator } from "../../test/fixtures/lib/string-validator";
 import { MobileValidator } from "../../test/fixtures/lib/mobile-validator";
 

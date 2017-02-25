@@ -1,4 +1,4 @@
-import { PasswordValidator } from "../../tmp/lib/validators-bundle";
+import { PasswordValidator, SecondPasswordValidator } from "../../tmp/lib/validators-bundle";
 import { StringValidator } from "../../tmp/lib/validators-bundle";
 import { MobileValidator } from "../../tmp/lib/validators-bundle";
 

@@ -6,7 +6,8 @@ var localModulesMap = {};
 var externModulesMap = {};
 var processedFiles = [];
 var modulePaths = {};
-var importRegEx = /^\s*import\s+\{(.*)\}\s+from\s+[\"\'](.*)[\"\'];*$/gm;
+var importRegEx = /^\s*import[\s\r\n]*\{[\r\n]*([\r\n\s\w,]*)[\r\n]*\}[\s\r\n]*from[\s\r\n]*[\"\'](.*)[\"\'][\s\r\n]*;*$/gm;
+var importsSplitRegEx = /[\s\r\n]*,[\s\r\n]*/;
 
 exports.clean = function () {
     localModulesMap = {};
@@ -29,8 +30,8 @@ exports.process = function (src, filepath, dest, bundles) {
     while ((match = importRegEx.exec(src)) !== null) {
 
         finalSrc = finalSrc.replace(match[0], "");
-
-        var allImports = match[1].split(",").map(function (str) {
+        console.log(match[1]);
+        var allImports = match[1].split(importsSplitRegEx).map(function (str) {
             return str.trim();
         });
 

@@ -33,6 +33,9 @@ export interface MobileValidator {
 export interface PasswordValidator {
     isAcceptable(s: String): boolean;
 }
+export interface SecondPasswordValidator {
+    isAcceptable(s: String): boolean;
+}
 
 export interface StringValidator {
     isAcceptable(s: String): boolean;

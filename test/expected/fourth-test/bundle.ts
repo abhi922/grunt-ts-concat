@@ -1,5 +1,5 @@
 import { DateFormatter } from "../../tmp/all-utils";
-import { PasswordValidator } from "../../tmp/all-utils";
+import { PasswordValidator, SecondPasswordValidator } from "../../tmp/all-utils";
 import { StringValidator } from "../../tmp/all-utils";
 import { MobileValidator } from "../../tmp/all-utils";
 
