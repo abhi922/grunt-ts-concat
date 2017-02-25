@@ -1,4 +1,4 @@
-# grunt-ts-concat
+# grunt-ts-concat [![Build Status: Linux](https://travis-ci.org/abhi922/grunt-ts-concat.svg?branch=master)](https://travis-ci.org/abhi922/grunt-ts-concat)
 
 > Bundle your typescript files with [Grunt](http://gruntjs.com/) into a single file that when compiled with typescript compiler results in a single module that consumers of your library can import from.
 
