@@ -41,6 +41,9 @@ Default value: `null`
 * If you are bundling a set of typescript files that import from a different set of files that have already been bundled, 
 you can specify that using this property.
 * This is not required, but sometimes when you may wanna use this to give better modularity to your code.
+* ```key``` is the path to bundle and ```value``` is an ```array``` of file paths that should be replaced with this bundle during concatenation.
+* Paths inside this ```array``` can have glob patterns.
+* For examples refer to ```Gruntfile.js```.
 
 ### Usage Examples
 
