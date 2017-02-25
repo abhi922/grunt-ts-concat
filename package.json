@@ -1,7 +1,7 @@
 {
   "name": "grunt-ts-concat",
   "description": "Bundle multiple typescript files into single typescript module.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/abhi922/grunt-ts-concat",
   "author": {
     "name": "Abhishek Jain",
