@@ -88,9 +88,10 @@ export class ZipCodeValidator implements SomeValidator {
 }
 ```
 
-Now when you compile and bundle these files with ```typescript``` compiler the result is something like this.
+Now let's say that you compile and bundle these files into a single file called ```main.js``` with ```typescript``` compiler, the result is something like this.
 ```js
-//letters-validator.js
+//main.js
+
 System.register("letters-only-validator", [], function (exports_6, context_6) {
     "use strict";
     var __moduleName = context_6 && context_6.id;
@@ -112,7 +113,6 @@ System.register("letters-only-validator", [], function (exports_6, context_6) {
     };
 });
 
-//zip-code-validator.js
 System.register("zip-code-validator", [], function (exports_7, context_7) {
     "use strict";
     var __moduleName = context_7 && context_7.id;
@@ -134,7 +134,30 @@ System.register("zip-code-validator", [], function (exports_7, context_7) {
     };
 });
 ```
+and the ```main.d.ts``` file is **(generated if compiler option ```--declaration``` is passed as `true`)** [[Typescript Documentation](http://www.typescriptlang.org/docs/handbook/compiler-options.html)]
 
+```javascript
+//main.d.ts
+declare module "some-validator" {
+    export interface SomeValidator {
+        isAcceptable(s: String): boolean;
+    }
+}
+declare module "letters-only-validator" {
+    import { SomeValidator } from "some-validator";
+    export class LettersOnlyValidator implements SomeValidator {
+        lettersRegexp: RegExp;
+        isAcceptable(s: string): boolean;
+    }
+}
+declare module "zip-code-validator" {
+    import { SomeValidator } from "some-validator";
+    export class ZipCodeValidator implements SomeValidator {
+        numberRegexp: RegExp;
+        isAcceptable(s: string): boolean;
+    }
+}
+```
 Which means that now if someone is using your library, they have to write 2 import statements for importing these classes.
 > This also means that the consumer of your library should be aware of the complete folder structure of your library to import from different modules because when ```typescript``` compiler bundles files, it gives the file path as module name.
 
@@ -196,6 +219,24 @@ System.register("main", [], function (exports_1, context_1) {
         }
     };
 });
+```
+and ```main.d.ts``` file is
+
+```javascript
+//main.d.ts
+declare module "main" {
+    export interface SomeValidator {
+        isAcceptable(s: String): boolean;
+    }
+    export class LettersOnlyValidator implements SomeValidator {
+        lettersRegexp: RegExp;
+        isAcceptable(s: string): boolean;
+    }
+    export class ZipCodeValidator implements SomeValidator {
+        numberRegexp: RegExp;
+        isAcceptable(s: string): boolean;
+    }
+}
 ```
 
 So now your users can import everything and anything that they want from just one module (```main``` in this case) **and there applications won't break even if you refactor your code into different folders in some future release of your library.**
